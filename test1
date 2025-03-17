@@ -1,0 +1,56 @@
+import { useState } from "react";
+import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Line } from "recharts";
+
+export default function SteelPileCalculator() {
+  const [inputs, setInputs] = useState({
+    load: "",
+    pileLength: "",
+    soilType: "",
+    material: "",
+    steelQuality: "",
+    waterLevel: "",
+  });
+
+  const [results, setResults] = useState(null);
+
+  const handleChange = (e) => {
+    setInputs({ ...inputs, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // Simulerad beräkning
+    const calculatedResults = {
+      bearingCapacity: Math.random() * 1000, // Placeholder
+      settlement: Math.random() * 10, // Placeholder
+    };
+    setResults(calculatedResults);
+  };
+
+  return (
+    <div className="flex items-center justify-center min-h-screen bg-gray-100 p-4">
+      <Card className="w-full max-w-lg bg-white shadow-lg p-6 rounded-2xl">
+        <h2 className="text-xl font-bold mb-4">Dimensionering av Stålpåle</h2>
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <Input name="load" type="number" placeholder="Last (kN)" onChange={handleChange} required />
+          <Input name="pileLength" type="number" placeholder="Pållängd (m)" onChange={handleChange} required />
+          <Input name="soilType" type="text" placeholder="Jordtyp" onChange={handleChange} required />
+          <Input name="material" type="text" placeholder="Material" onChange={handleChange} required />
+          <Input name="steelQuality" type="text" placeholder="Stålkvalitet" onChange={handleChange} required />
+          <Input name="waterLevel" type="number" placeholder="Grundvattennivå (m)" onChange={handleChange} required />
+          <Button type="submit" className="w-full">Beräkna</Button>
+        </form>
+        {results && (
+          <div className="mt-6 p-4 bg-gray-200 rounded-xl">
+            <h3 className="text-lg font-semibold">Resultat</h3>
+            <p><strong>Bärförmåga:</strong> {results.bearingCapacity.toFixed(2)} kN</p>
+            <p><strong>Sättning:</strong> {results.settlement.toFixed(2)} cm</p>
+          </div>
+        )}
+      </Card>
+    </div>
+  );
+}
